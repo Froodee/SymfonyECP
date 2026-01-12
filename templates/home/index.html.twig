@@ -1,0 +1,179 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ECP - Produits de bio-nettoyage écologique{% endblock %}
+
+{% block main %}
+<section id="hero" class="hero section light-background">
+    <img src="{{ asset('img/hero-bg.jpg') }}" alt="Un jardin parfaitement net et sans aucune trace" class="img-fluid">
+    <div class="container position-relative">
+        <div class="welcome">
+            <h2>Bienvenue chez ECP</h2>
+            <p>Des solutions de <strong>jardinage radical et bio-nettoyage discret</strong>. Tout disparaît naturellement.</p>
+        </div>
+        <div class="content row gy-4">
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="why-box">
+                    <h3>Pourquoi choisir ECP ?</h3>
+                    <p>
+                        Des formules ultra-concentrées, rechargeables et sans emballage superflu.<br>
+                        Respect total de l’environnement… et efficacité redoutable sur les taches les plus tenaces.
+                    </p>
+                    <div class="text-center">
+                        <a href="{{ path('app_about') }}" class="more-btn"><span>En savoir plus</span> <i class="bi bi-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 d-flex align-items-stretch">
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="row gy-4">
+                        <div class="col-xl-6 d-flex align-items-stretch">
+                            <div class="icon-box">
+                                <i class="bi bi-droplet"></i>
+                                <h4>Concentrés puissants</h4>
+                                <p>Un petit flacon pour faire disparaître des volumes entiers.</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 d-flex align-items-stretch">
+                            <div class="icon-box">
+                                <i class="bi bi-recycle"></i>
+                                <h4>Zéro trace</h4>
+                                <p>Emballages discrets qui se décomposent sans laisser d’empreinte.</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 d-flex align-items-stretch">
+                            <div class="icon-box">
+                                <i class="bi bi-shield-check"></i>
+                                <h4>100 % naturel</h4>
+                                <p>Ingrédients biodégradables, sans danger… pour ce qu’il reste.</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 d-flex align-items-stretch">
+                            <div class="icon-box">
+                                <i class="bi bi-cart3"></i>
+                                <h4>Livraison anonyme</h4>
+                                <p>Colis neutre, expédition rapide, aucune question posée.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="services" class="services section">
+    <div class="container section-title">
+        <h2>Nos solutions phares</h2>
+        <p>Pour un jardin impeccable et une maison parfaitement nette.</p>
+    </div>
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-6 col-md-12">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="fas fa-spray-can"></i></div>
+                    <h3>Désherbage radical</h3>
+                    <p>Spray rechargeable qui fait disparaître les indésirables en profondeur.</p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="fas fa-tint"></i></div>
+                    <h3>Nettoyage du sol</h3>
+                    <p>Concentré puissant pour rendre toute surface lisse et sans souvenir.</p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="fas fa-utensils"></i></div>
+                    <h3>Cuisine impeccable</h3>
+                    <p>Produits qui effacent graisses et résidus sans laisser de trace.</p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="service-item position-relative">
+                    <div class="icon"><i class="fas fa-bath"></i></div>
+                    <h3>Salle de bain nette</h3>
+                    <p>Anti-calcaire et nettoyants qui font tout disparaître naturellement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="faq" class="faq section light-background">
+    <div class="container section-title">
+        <h2>Questions fréquentes</h2>
+        <p>Ce qu’il faut savoir avant de passer commande.</p>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="faq-container">
+                    <div class="faq-item faq-active">
+                        <h3>Comment fonctionnent les concentrés ?</h3>
+                        <div class="faq-content">
+                            <p>Diluez simplement dans de l’eau. Quelques gouttes suffisent pour un résultat définitif.</p>
+                        </div>
+                        <i class="faq-toggle bi bi-chevron-right"></i>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Est-ce vraiment écologique ?</h3>
+                        <div class="faq-content">
+                            <p>Absolument. Tout est biodégradable, sans substance controversée… et sans retour en arrière possible.</p>
+                        </div>
+                        <i class="faq-toggle bi bi-chevron-right"></i>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Quelle discrétion pour la livraison ?</h3>
+                        <div class="faq-content">
+                            <p>Colis totalement neutre, expédition sous 48h, aucune mention du contenu.</p>
+                        </div>
+                        <i class="faq-toggle bi bi-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact section">
+    <div class="container section-title">
+        <h2>Nous contacter</h2>
+        <p>Une question sur votre jardin ou votre nettoyage ?<br>Nous répondons avec la plus grande discrétion.</p>
+    </div>
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-4">
+                <div class="info-item d-flex">
+                    <i class="bi bi-geo-alt flex-shrink-0"></i>
+                    <div>
+                        <h3>Adresse</h3>
+                        <p>Zone verte discrète<br>75000 Paris</p>
+                    </div>
+                </div>
+                <div class="info-item d-flex">
+                    <i class="bi bi-telephone flex-shrink-0"></i>
+                    <div>
+                        <h3>Téléphone</h3>
+                        <p>01 23 45 67 89</p>
+                    </div>
+                </div>
+                <div class="info-item d-flex">
+                    <i class="bi bi-envelope flex-shrink-0"></i>
+                    <div>
+                        <h3>Email</h3>
+                        <p>emballep@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8" id="gmap">
+                <iframe src="https://www.google.com/maps/embed?pb=...[insère ton lien Google Maps]..." width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// (le script FAQ reste le même, pas besoin de changement)
+</script>
+{% endblock %}

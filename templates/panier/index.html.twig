@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier - ECP : Emballé c'est pesé{% endblock %}
+
+{% block main %}
+<section id="panier" class="cart section light-background">
+
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Votre panier discret</h2>
+        <p>Tout ce qu’il faut pour un jardinage <strong>propre, efficace et sans traces</strong>.<br>
+        Livraison en colis neutre, bien sûr.</p>
+    </div>
+
+    <div class="container">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i>{{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+
+        <div class="row gy-5">
+            <div class="col-lg-8" data-aos="fade-right">
+                {% if panier|length > 0 %}
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Prix</th>
+                                    <th>Quantité</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for id, item in panier %}
+                                    <tr class="cart-item border-bottom">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="{{ asset('img/' ~ item.produit.designPds) }}" alt="{{ item.produit.libPds }}" class="rounded me-3" style="width: 80px; height: 80px; object-fit: cover;">
+                                                <div>
+                                                    <h6 class="mb-1">{{ item.produit.libPds }}</h6>
+                                                    {% if item.produit.idPromo %}
+                                                        {% set now = "now"|date('Y-m-d') %}
+                                                        {% set dateDebut = item.produit.idPromo.dateDb|date('Y-m-d') %}
+                                                        {% set dateFin = item.produit.idPromo.dateFin|date('Y-m-d') %}
+                                                        {% if now >= dateDebut and now <= dateFin %}
+                                                            <span class="badge bg-danger small">Promo -{{ item.produit.idPromo.reduc }}%</span>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-danger fw-bold">
+                                            €{{ item.produit.prixPds|number_format(2, ',', ' ') }}
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <a href="{{ path('app_panier_diminuer', {id: id}) }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">-</a>
+                                                <span class="mx-3 fw-bold">{{ item.quantite }}</span>
+                                                <a href="{{ path('app_panier_augmenter', {id: id}) }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">+</a>
+                                            </div>
+                                        </td>
+                                        <td class="text-danger fw-bold">
+                                            €{{ (item.quantite * item.produit.prixPds)|number_format(2, ',', ' ') }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('app_panier_supprimer', {id: id}) }}" class="btn btn-link text-muted" title="Retirer" onclick="return confirm('Retirer ce produit du panier ?')">
+                                                <i class="bi bi-trash3 fs-5"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <a href="{{ path('app_boutique') }}" class="btn btn-outline-success rounded-pill px-4">
+                            <i class="bi bi-arrow-left me-2"></i> Continuer mes achats verdoyants
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-cart4 text-muted" style="font-size: 5rem;"></i>
+                        <h4 class="mt-4 text-muted">Votre panier est vide</h4>
+                        <p class="text-muted">Il est temps de préparer un jardin impeccable…</p>
+                        <a href="{{ path('app_boutique') }}" class="btn btn-danger rounded-pill px-5 mt-3">
+                            Découvrir nos solutions
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Résumé du panier -->
+            <div class="col-lg-4" data-aos="fade-left">
+                <div class="p-4 border rounded shadow-sm sticky-top" style="top: 100px;">
+                    <h5 class="mb-4">Récapitulatif de la commande</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Sous-total</span>
+                        <span class="fw-bold">€{{ sousTotal|number_format(2, ',', ' ') }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 text-muted small">
+                        <span>Livraison (colis neutre)</span>
+                        <span>€{{ fraisLivraison|number_format(2, ',', ' ') }}</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <strong>Total TTC</strong>
+                        <strong class="text-danger fs-4">€{{ total|number_format(2, ',', ' ') }}</strong>
+                    </div>
+
+                    {% if panier|length > 0 %}
+                        <button class="btn btn-danger w-100 rounded-pill py-3 mb-3" onclick="alert('Commande validée ! Votre colis partira sans laisser de traces. 😏')">
+                            Valider la commande
+                        </button>
+
+                        <a href="{{ path('app_panier_vider') }}" class="btn btn-outline-danger w-100 rounded-pill mb-3" onclick="return confirm('Êtes-vous sûr de vouloir vider votre panier ?')">
+                            <i class="bi bi-trash3 me-2"></i>Vider le panier
+                        </a>
+                    {% endif %}
+
+                    <div class="alert alert-info small p-3" role="alert">
+                        <i class="bi bi-shield-lock me-2"></i>
+                        Paiement sécurisé • Colis anonyme • Aucune facture conservée
+                    </div>
+
+                    <p class="text-muted small text-center mt-3">
+                        <em>Chez ECP, on emballe… et c’est pesé.<br>
+                        Personne n’en saura rien.</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        {% if panier|length > 0 %}
+            <div class="text-center mt-5" data-aos="fade-up">
+                <p class="text-muted fst-italic">
+                    Merci pour votre confiance.<br>
+                    <span class="text-danger">Votre jardin n’aura jamais été aussi… calme. 🌿</span>
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

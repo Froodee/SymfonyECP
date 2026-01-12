@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boutique - ECP : Emballé c'est pesé{% endblock %}
+
+{% block main %}
+<section id="boutique" class="boutique section light-background">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Notre boutique verdoyante</h2>
+        <p>Tous les outils dont votre jardin a besoin pour rester… impeccable.<br>
+        <span class="small text-muted">Livraison discrète en 48h • Colis neutre • Paiement sécurisé</span></p>
+    </div>
+
+    <div class="container">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i>{{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+
+        {% if produits|length > 0 %}
+            <div class="row gy-4">
+                {% for produit in produits %}
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow">
+                        <div class="position-relative">
+                            <img src="{{ asset('img/' ~ produit.designPds) }}" class="card-img-top" alt="{{ produit.libPds }}" style="height: 280px; object-fit: cover;">
+                            {% if produit.idPromo %}
+                                {% set now = "now"|date('Y-m-d') %}
+                                {% set dateDebut = produit.idPromo.dateDb|date('Y-m-d') %}
+                                {% set dateFin = produit.idPromo.dateFin|date('Y-m-d') %}
+                                {% if now >= dateDebut and now <= dateFin %}
+                                    <span class="badge bg-danger position-absolute top-0 end-0 m-3">
+                                        Promo -{{ produit.idPromo.reduc }}%
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                            {% if produit.qtepds < 5 %}
+                                <span class="badge bg-warning position-absolute top-0 start-0 m-3">
+                                    Stock limité
+                                </span>
+                            {% endif %}
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ produit.libPds }}</h5>
+                            <p class="card-text text-muted flex-grow-1">{{ produit.descPds }}</p>
+                            <div class="mt-auto">
+                                <p class="h4 text-danger mb-2">
+                                    {% if produit.idPromo %}
+                                        {% set now = "now"|date('Y-m-d') %}
+                                        {% set dateDebut = produit.idPromo.dateDb|date('Y-m-d') %}
+                                        {% set dateFin = produit.idPromo.dateFin|date('Y-m-d') %}
+                                        {% if now >= dateDebut and now <= dateFin %}
+                                            {% set prixPromo = produit.prixPds * (1 - produit.idPromo.reduc / 100) %}
+                                            {{ prixPromo|number_format(2, ',', ' ') }} €
+                                            <del class="small text-muted">{{ produit.prixPds|number_format(2, ',', ' ') }} €</del>
+                                        {% else %}
+                                            {{ produit.prixPds|number_format(2, ',', ' ') }} €
+                                        {% endif %}
+                                    {% else %}
+                                        {{ produit.prixPds|number_format(2, ',', ' ') }} €
+                                    {% endif %}
+                                </p>
+                                <a href="{{ path('app_boutique_ajouter', {id: produit.id}) }}" class="btn btn-success w-100 rounded-pill">
+                                    <i class="bi bi-cart-plus"></i> Ajouter au panier
+                                </a>
+                                <small class="text-muted d-block text-center mt-2">
+                                    <i class="bi bi-check-circle me-1"></i>En stock: {{ produit.qtepds }} unités
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-inbox text-muted" style="font-size: 5rem;"></i>
+                <h3 class="mt-4 text-muted">Aucun produit disponible pour le moment</h3>
+                <p class="text-muted">Revenez bientôt pour découvrir nos nouveautés !</p>
+            </div>
+        {% endif %}
+
+        <div class="text-center mt-5" data-aos="fade-up">
+            <div class="why-box p-5 rounded shadow text-white" style="background: linear-gradient(135deg, #dc2626, #991b1b);">
+                <h3>Besoin d’un conseil pour votre jardin ?</h3>
+                <p class="lead">On sait exactement quelle dose appliquer pour un résultat définitif.<br>
+                <span class="small opacity-75">Enfin… on croit. 😏</span></p>
+                <a href="{{ path('app_contact') }}" class="btn btn-light btn-lg mt-3 rounded-pill px-5">
+                    Nous contacter en toute discrétion
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

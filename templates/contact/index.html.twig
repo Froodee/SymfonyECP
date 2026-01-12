@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact - ECP : Emballé c'est pesé{% endblock %}
+
+{% block main %}
+<section id="contact" class="contact section">
+
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Nous contacter</h2>
+        <p>Une question sur nos solutions de <strong>jardinage radical</strong> ?<br>
+        Besoin d’un conseil discret pour un terrain particulièrement… encombré ?<br>
+        On est là. Et on sait écouter.</p>
+    </div>
+
+    <div class="container">
+        <div class="row gy-5">
+
+            <!-- Informations de contact -->
+            <div class="col-lg-4" data-aos="fade-right">
+                <div class="info-item d-flex mb-4">
+                    <i class="bi bi-geo-alt flex-shrink-0 text-white bg-danger rounded-circle p-3" style="font-size: 1.5rem;"></i>
+                    <div class="ms-4">
+                        <h3>Adresse</h3>
+                        <p>Zone Industrielle des Fleurs Fanées<br>
+                        66666 Ombreville</p>
+                    </div>
+                </div>
+
+                <div class="info-item d-flex mb-4">
+                    <i class="bi bi-telephone flex-shrink-0 text-white bg-danger rounded-circle p-3" style="font-size: 1.5rem;"></i>
+                    <div class="ms-4">
+                        <h3>Téléphone</h3>
+                        <p>01.23.45.67.89<br>
+                        <small class="text-muted">Appelez entre minuit et 4h pour une réponse plus rapide</small></p>
+                    </div>
+                </div>
+
+                <div class="info-item d-flex mb-4">
+                    <i class="bi bi-envelope flex-shrink-0 text-white bg-danger rounded-circle p-3" style="font-size: 1.5rem;"></i>
+                    <div class="ms-4">
+                        <h3>Email</h3>
+                        <p>emballep@gmail.com<br>
+                        <small class="text-muted">Utilisez de préférence un email temporaire</small></p>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning mt-4" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Confidentialité absolue</strong> : aucune donnée conservée, aucun historique, aucun trace.
+                </div>
+            </div>
+
+            <!-- Formulaire de contact -->
+            <div class="col-lg-8" data-aos="fade-left">
+                <form action="#" method="post" class="php-email-form p-5 border rounded shadow-sm">
+                    <div class="row gy-4">
+
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Votre nom (ou pseudonyme)</label>
+                            <input type="text" name="name" class="form-control" id="name" placeholder="John Doe... ou autre" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Votre email</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="exemple@temp-mail.com" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="subject" class="form-label">Sujet</label>
+                            <select class="form-select" name="subject" id="subject" required>
+                                <option value="">Choisissez une option...</option>
+                                <option>Désherbage urgent</option>
+                                <option>Nettoyage de terrain ancien</option>
+                                <option>Conseil pour racines profondes</option>
+                                <option>Demande de devis discret</option>
+                                <option>Autre chose (on ne juge pas)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="message" class="form-label">Votre message</label>
+                            <textarea class="form-control" name="message" rows="8" id="message" placeholder="Décrivez votre situation... On sait être discrets." required></textarea>
+                        </div>
+
+                        <div class="col-12 text-center">
+                            <div class="loading d-none">Envoi en cours...</div>
+                            <div class="error-message d-none"></div>
+                            <div class="sent-message d-none">
+                                <i class="bi bi-check-circle text-success fs-3"></i><br>
+                                Votre message a été envoyé. Il va... disparaître dans la nature.<br>
+                                <small>Nous vous répondrons sous 48h (en colis neutre si nécessaire).</small>
+                            </div>
+
+                            <button type="submit" class="btn btn-danger btn-lg rounded-pill px-5 mt-3">
+                                Envoyer le message
+                            </button>
+                        </div>
+
+                        <div class="col-12 text-center mt-3">
+                            <small class="text-muted">
+                                <em>Aucun message n’est conservé plus de 24h. Promis juré.</em>
+                            </small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Petite touche finale -->
+        <div class="text-center mt-5" data-aos="fade-up">
+            <p class="text-muted fst-italic">
+                Chez ECP, on ne pose pas de questions.<br>
+                On nettoie juste… proprement.<br><br>
+                <span class="text-danger">🌿 Enfin, on croit. 😏</span>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

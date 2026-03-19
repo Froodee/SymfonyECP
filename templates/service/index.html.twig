@@ -1,20 +1,125 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ServiceController!{% endblock %}
+{% block title %}Services - ECP : Emballé c'est pesé{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block main %}
+<section id="services" class="services section light-background">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Nos services</h2>
+        <p>Des solutions écologiques pour chaque besoin.<br>
+        <span class="small text-muted">Respectueux de l'environnement • Efficaces • Certifiés</span></p>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/ECPsymfony/src/Controller/ServiceController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/ECPsymfony/templates/service/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="container">
+
+        <div class="row gy-4">
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-box-seam text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4>Livraison à domicile</h4>
+                    <p class="text-muted">Recevez vos produits directement chez vous en 48h. Emballage recyclable et colis neutre garanti.</p>
+                    <ul class="list-unstyled text-muted small mt-3">
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Livraison offerte dès 50€</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Suivi en temps réel</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Emballage éco-responsable</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-recycle text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4>Produits certifiés bio</h4>
+                    <p class="text-muted">Toute notre gamme est certifiée biologique et zéro déchet. Des formules naturelles, sans compromis sur l'efficacité.</p>
+                    <ul class="list-unstyled text-muted small mt-3">
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Certifications Ecocert</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Sans produits chimiques</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Biodégradable à 100%</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-headset text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4>Conseil personnalisé</h4>
+                    <p class="text-muted">Notre équipe d'experts vous guide dans le choix des produits les mieux adaptés à votre situation.</p>
+                    <ul class="list-unstyled text-muted small mt-3">
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Disponible 6j/7</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Par email ou téléphone</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Réponse sous 24h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-arrow-repeat text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4>Abonnement mensuel</h4>
+                    <p class="text-muted">Recevez automatiquement vos produits chaque mois avec une remise exclusive de 10% sur toute la commande.</p>
+                    <ul class="list-unstyled text-muted small mt-3">
+                        <li><i class="bi bi-check-circle text-success me-2"></i>-10% sur chaque commande</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Résiliation à tout moment</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Personnalisable</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-building text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4>Offre professionnelle</h4>
+                    <p class="text-muted">Des tarifs dégressifs et un service dédié pour les entreprises, collectivités et professionnels du secteur.</p>
+                    <ul class="list-unstyled text-muted small mt-3">
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Devis sur mesure</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Facturation SIRET</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Livraison en gros volume</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-shield-check text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4>Satisfait ou remboursé</h4>
+                    <p class="text-muted">Vous avez 30 jours pour retourner un produit qui ne vous convient pas. Sans questions, sans justification.</p>
+                    <ul class="list-unstyled text-muted small mt-3">
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Retour gratuit</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Remboursement sous 5 jours</li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Valable 30 jours</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-5" data-aos="fade-up">
+            <div class="p-5 rounded shadow text-white" style="background: linear-gradient(135deg, #16a34a, #15803d);">
+                <h3>Prêt à passer au vert ?</h3>
+                <p class="lead mb-4">Découvrez notre gamme complète de produits bio et zéro déchet.</p>
+                <a href="{{ path('app_boutique') }}" class="btn btn-light btn-lg rounded-pill px-5 me-3">
+                    <i class="bi bi-shop me-2"></i>Voir la boutique
+                </a>
+                <a href="{{ path('app_contact') }}" class="btn btn-outline-light btn-lg rounded-pill px-5">
+                    <i class="bi bi-envelope me-2"></i>Nous contacter
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
 {% endblock %}

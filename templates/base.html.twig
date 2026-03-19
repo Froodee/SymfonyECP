@@ -51,18 +51,19 @@
                     </a>
 
                     <nav id="navmenu" class="navmenu">
+                        {% set route = app.request.attributes.get('_route') %}
                         <ul>
-                            <li><a href="{{ path('app_home') }}" class="active">Accueil</a></li>
-                            <li><a href="{{ path('app_about') }}">À propos</a></li>
-                            <li><a href="#">Service</a></li>
+                            <li><a href="{{ path('app_home') }}" {{ route == 'app_home' ? 'class="active"' }}>Accueil</a></li>
+                            <li><a href="{{ path('app_about') }}" {{ route == 'app_about' ? 'class="active"' }}>À propos</a></li>
+                            <li><a href="{{ path('app_service') }}" {{ route == 'app_service' ? 'class="active"' }}>Service</a></li>
                             {% if app.user %}
-                                <li><a href="{{ path('app_profil') }}">Mon compte</a></li>
+                                <li><a href="{{ path('app_profil') }}" {{ route == 'app_profil' ? 'class="active"' }}>Mon compte</a></li>
                                 <li><a href="{{ url('app_logout') }}">Déconnexion</a></li>
                             {% else %}
-                                <li><a href="{{ url('app_login') }}">Connexion</a></li>
+                                <li><a href="{{ url('app_login') }}" {{ route == 'app_login' ? 'class="active"' }}>Connexion</a></li>
                             {% endif %}
-                            <li><a href="{{ path('app_contact') }}">Contact</a></li>
-                            <li><a href="{{ path('app_panier') }}">Panier
+                            <li><a href="{{ path('app_contact') }}" {{ route == 'app_contact' ? 'class="active"' }}>Contact</a></li>
+                            <li><a href="{{ path('app_panier') }}" {{ route == 'app_panier' ? 'class="active"' }}>Panier
                                 {% if app.session.get('nbre', 0) > 0 %}
                                     <span style="background:#dc2626;color:white;border-radius:50%;padding:2px 8px;font-size:0.8rem;">{{ app.session.get('nbre') }}</span>
                                 {% endif %}

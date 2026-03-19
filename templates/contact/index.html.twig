@@ -52,7 +52,22 @@
 
             <!-- Formulaire de contact -->
             <div class="col-lg-8" data-aos="fade-left">
-                <form action="#" method="post" class="php-email-form p-5 border rounded shadow-sm">
+
+                {% for message in successMessages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>{{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+                {% for message in errorMessages %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>{{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+
+                <form action="{{ path("app_contact") }}" method="post" class="p-5 border rounded shadow-sm">
+                    <input type="hidden" name="_token" value="{{ csrf_token("contact") }}">
                     <div class="row gy-4">
 
                         <div class="col-md-6">
@@ -83,14 +98,6 @@
                         </div>
 
                         <div class="col-12 text-center">
-                            <div class="loading d-none">Envoi en cours...</div>
-                            <div class="error-message d-none"></div>
-                            <div class="sent-message d-none">
-                                <i class="bi bi-check-circle text-success fs-3"></i><br>
-                                Votre message a été envoyé. Il va... disparaître dans la nature.<br>
-                                <small>Nous vous répondrons sous 48h (en colis neutre si nécessaire).</small>
-                            </div>
-
                             <button type="submit" class="btn btn-danger btn-lg rounded-pill px-5 mt-3">
                                 Envoyer le message
                             </button>

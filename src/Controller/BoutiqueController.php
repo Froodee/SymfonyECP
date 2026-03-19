@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Avis;
 use App\Entity\Produits;
 use App\Repository\ProduitsRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,5 +59,41 @@ final class BoutiqueController extends AbstractController
         // Rediriger vers la page précédente ou la boutique
         $referer = $request->headers->get('referer');
         return $this->redirect($referer ?: $this->generateUrl('app_boutique'));
+    }
+
+    #[Route('/boutique/avis/{id}', name: 'app_boutique_avis', methods: ['POST'])]
+    public function ajouterAvis(Produits $produit, Request $request, EntityManagerInterface $em): Response
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        if (!$this->isCsrfTokenValid('avis_' . $produit->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', 'Token invalide.');
+            return $this->redirectToRoute('app_boutique');
+        }
+
+        $utilisateur = $this->getUser()->getUtilisateur();
+        if (!$utilisateur) {
+            $this->addFlash('error', 'Profil incomplet, impossible de poster un avis.');
+            return $this->redirectToRoute('app_boutique');
+        }
+
+        $commentaire = trim($request->request->get('commentaire', ''));
+        if (!$commentaire) {
+            $this->addFlash('error', 'Le commentaire ne peut pas être vide.');
+            return $this->redirectToRoute('app_boutique');
+        }
+
+        $avis = new Avis();
+        $avis->setCommentaire($commentaire);
+        $avis->setRefPds($produit);
+        $avis->setIdUser($utilisateur);
+
+        $em->persist($avis);
+        $em->flush();
+
+        $this->addFlash('success', 'Votre avis a été publié !');
+        return $this->redirectToRoute('app_boutique');
     }
 }

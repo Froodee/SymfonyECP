@@ -22,6 +22,228 @@
         <link href="{{ asset(path='vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
         <!-- Main CSS File -->
         <link href="{{ asset(path='css/main.css') }}" rel="stylesheet">
+        <style>
+            /* ── Toasts ── */
+            .toast-container {
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                z-index: 99999;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                max-width: 340px;
+            }
+            .app-toast {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 13px 16px;
+                border-radius: 10px;
+                box-shadow: 0 6px 24px rgba(0,0,0,.15);
+                font-size: .9rem;
+                font-weight: 500;
+                color: #fff;
+                animation: toastIn .3s cubic-bezier(.22,1,.36,1);
+            }
+            @keyframes toastIn {
+                from { opacity: 0; transform: translateY(16px); }
+                to   { opacity: 1; transform: translateY(0); }
+            }
+            .app-toast--success { background: #16a34a; }
+            .app-toast--error   { background: #dc3545; }
+            .app-toast--warning { background: #d97706; }
+            .app-toast--info    { background: #0284c7; }
+            .app-toast__icon    { font-size: 1.1rem; flex-shrink: 0; }
+            .app-toast__msg     { flex: 1; }
+            .app-toast__close   { background: none; border: none; color: rgba(255,255,255,.8); font-size: 1.2rem; cursor: pointer; padding: 0; line-height: 1; margin-left: 4px; }
+            .app-toast__close:hover { color: #fff; }
+
+            /* Dropdowns */
+            .navmenu li.dropdown > ul {
+                display: none;
+                position: absolute;
+                top: calc(100% + 6px);
+                left: 0;
+                background: #fff;
+                min-width: 210px;
+                box-shadow: 0 8px 24px rgba(0,0,0,.13);
+                border-radius: 10px;
+                padding: 6px 0;
+                z-index: 9999;
+                list-style: none;
+                margin: 0;
+            }
+            .navmenu li.dropdown { position: relative; }
+            .navmenu li.dropdown > ul.open { display: block; }
+            .navmenu li.dropdown > ul li a {
+                display: flex;
+                align-items: center;
+                padding: 9px 18px;
+                font-size: .88rem;
+                color: #333;
+                white-space: nowrap;
+                text-decoration: none;
+            }
+            .navmenu li.dropdown > ul li a:hover { color: #dc3545; background: #fff5f5; }
+
+            /* ── Zone compte ── */
+            .nav-account-zone {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-left: 16px;
+                padding-left: 16px;
+                border-left: 1px solid #e5e5e5;
+                flex-shrink: 0;
+            }
+
+            /* Bouton utilisateur */
+            .nav-user-btn {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                background: #f8f8f8;
+                border: 1px solid #e8e8e8;
+                border-radius: 24px;
+                padding: 5px 12px 5px 5px;
+                cursor: pointer;
+                font-size: .88rem;
+                font-weight: 500;
+                color: #333;
+                transition: background .2s, border-color .2s;
+            }
+            .nav-user-btn:hover { background: #f0f0f0; border-color: #ccc; }
+
+            /* Avatar */
+            .nav-account-avatar {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: #dc3545;
+                color: #fff;
+                font-size: .75rem;
+                font-weight: 700;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            /* Dropdown panel */
+            .nav-user-dropdown { position: relative; }
+            .nav-user-panel {
+                display: none;
+                position: absolute;
+                top: calc(100% + 4px);
+                right: 0;
+                background: #fff;
+                min-width: 230px;
+                border-radius: 12px;
+                box-shadow: 0 10px 32px rgba(0,0,0,.14);
+                overflow: hidden;
+                z-index: 9999;
+            }
+            .nav-user-panel.open { display: block; }
+
+            .nav-user-panel-header {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 14px 16px;
+                background: #fafafa;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            .nav-user-panel-avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: #dc3545;
+                color: #fff;
+                font-size: .9rem;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+            .nav-user-panel-header strong { display: block; font-size: .9rem; color: #222; }
+            .nav-user-panel-header small  { font-size: .75rem; color: #888; }
+
+            .nav-user-panel a {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 16px;
+                font-size: .88rem;
+                color: #333;
+                text-decoration: none;
+                transition: background .15s;
+            }
+            .nav-user-panel a:hover { background: #f5f5f5; color: #dc3545; }
+            .nav-user-panel a.logout { color: #dc3545; }
+            .nav-user-panel a.logout:hover { background: #fff0f0; }
+            .nav-user-panel-divider { height: 1px; background: #f0f0f0; margin: 4px 0; }
+
+            /* Connexion / Inscription */
+            .nav-account-login {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                font-size: .88rem;
+                color: #333;
+                text-decoration: none;
+                padding: 6px 10px;
+                border-radius: 6px;
+                transition: color .2s;
+            }
+            .nav-account-login:hover { color: #dc3545; }
+            .nav-account-register {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                font-size: .85rem;
+                background: #dc3545;
+                color: #fff !important;
+                text-decoration: none;
+                padding: 6px 14px;
+                border-radius: 20px;
+                transition: background .2s;
+            }
+            .nav-account-register:hover { background: #b91c1c; }
+
+            /* Panier */
+            .nav-cart-btn {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: #f0faf4;
+                color: #2e7d32;
+                font-size: 1.2rem;
+                text-decoration: none;
+                transition: background .2s;
+            }
+            .nav-cart-btn:hover { background: #d4edda; }
+            .nav-cart-badge {
+                position: absolute;
+                top: 0;
+                right: 0;
+                background: #dc3545;
+                color: #fff;
+                border-radius: 50%;
+                width: 16px;
+                height: 16px;
+                font-size: .6rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+            }
+        </style>
     </head>
     <body class="index-page">
         <!-- Entête -->
@@ -55,27 +277,96 @@
                         <ul>
                             <li><a href="{{ path('app_home') }}" {{ route == 'app_home' ? 'class="active"' }}>Accueil</a></li>
                             <li><a href="{{ path('app_about') }}" {{ route == 'app_about' ? 'class="active"' }}>À propos</a></li>
-                            <li><a href="{{ path('app_service') }}" {{ route == 'app_service' ? 'class="active"' }}>Service</a></li>
-                            {% if app.user %}
-                                <li><a href="{{ path('app_profil') }}" {{ route == 'app_profil' ? 'class="active"' }}>Mon compte</a></li>
-                                <li><a href="{{ url('app_logout') }}">Déconnexion</a></li>
-                            {% else %}
-                                <li><a href="{{ url('app_login') }}" {{ route == 'app_login' ? 'class="active"' }}>Connexion</a></li>
-                            {% endif %}
+                            <li><a href="{{ path('app_boutique') }}" {{ route starts with 'app_boutique' ? 'class="active"' }}>Boutique</a></li>
+                            <li class="dropdown">
+                                <a href="#" {{ (route == 'app_service' or route starts with 'app_rendez_vous') ? 'class="active"' }}>
+                                    <span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i>
+                                </a>
+                                <ul>
+                                    <li><a href="{{ path('app_service') }}" {{ route == 'app_service' ? 'class="active"' }}>Nos services</a></li>
+                                    <li>
+                                        <a href="{{ path('app_rendez_vous') }}" {{ route starts with 'app_rendez_vous' ? 'class="active"' }}>
+                                            Rendez-vous
+                                            <span style="background:#dc2626;color:#fff;border-radius:4px;font-size:.6rem;padding:1px 5px;margin-left:4px;vertical-align:middle;">NEW</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li><a href="{{ path('app_contact') }}" {{ route == 'app_contact' ? 'class="active"' }}>Contact</a></li>
-                            <li><a href="{{ path('app_panier') }}" {{ route == 'app_panier' ? 'class="active"' }}>Panier
-                                {% if app.session.get('nbre', 0) > 0 %}
-                                    <span style="background:#dc2626;color:white;border-radius:50%;padding:2px 8px;font-size:0.8rem;">{{ app.session.get('nbre') }}</span>
-                                {% endif %}
-                            </a></li>
                             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                         </ul>
                     </nav>
 
-                    <a class="cta-btn d-none d-sm-block" href="{{ path('app_boutique') }}">Voir la boutique</a>
+                    {# ── Zone compte ── #}
+                    <div class="nav-account-zone">
+                        {% if app.user %}
+                            <div class="nav-user-dropdown">
+                                <button class="nav-user-btn">
+                                    <span class="nav-account-avatar">
+                                        {{ (app.user.utilisateur ? app.user.utilisateur.nomUser : app.user.email)|slice(0,1)|upper }}
+                                    </span>
+                                    <span class="nav-user-name d-none d-lg-inline">
+                                        {% if app.user.utilisateur %}{{ app.user.utilisateur.nomUser|split(' ')|first }}{% else %}Mon compte{% endif %}
+                                    </span>
+                                    <i class="bi bi-chevron-down"></i>
+                                </button>
+                                <div class="nav-user-panel">
+                                    <div class="nav-user-panel-header">
+                                        <div class="nav-user-panel-avatar">
+                                            {{ (app.user.utilisateur ? app.user.utilisateur.nomUser : app.user.email)|slice(0,1)|upper }}
+                                        </div>
+                                        <div>
+                                            <strong>{% if app.user.utilisateur %}{{ app.user.utilisateur.nomUser }}{% else %}Mon compte{% endif %}</strong>
+                                            <small>{{ app.user.email }}</small>
+                                        </div>
+                                    </div>
+                                    <a href="{{ path('app_profil') }}#infos"><i class="bi bi-person"></i>Mon profil</a>
+                                    <a href="{{ path('app_profil') }}#commandes"><i class="bi bi-box-seam"></i>Mes commandes</a>
+                                    <a href="{{ path('app_rendez_vous') }}"><i class="bi bi-calendar-check"></i>Prendre RDV</a>
+                                    <div class="nav-user-panel-divider"></div>
+                                    <a href="{{ url('app_logout') }}" class="logout"><i class="bi bi-box-arrow-right"></i>Déconnexion</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{{ url('app_login') }}" class="nav-account-login">
+                                <i class="bi bi-person"></i> Connexion
+                            </a>
+                            <a href="{{ path('app_inscription') }}" class="nav-account-register">
+                                <i class="bi bi-person-plus"></i> Inscription
+                            </a>
+                        {% endif %}
+
+                        <a href="{{ path('app_panier') }}" class="nav-cart-btn">
+                            <i class="bi bi-cart3"></i>
+                            {% if app.session.get('nbre', 0) > 0 %}
+                                <span class="nav-cart-badge">{{ app.session.get('nbre') }}</span>
+                            {% endif %}
+                        </a>
+                    </div>
                 </div>
             </div>
         </header>
+
+        {# ── Toasts globaux ── #}
+        {% set allFlashes = app.flashes(['success', 'error', 'warning', 'info']) %}
+        {% if allFlashes|length > 0 %}
+        <div class="toast-container" id="toast-container">
+            {% for type, messages in allFlashes %}
+                {% for message in messages %}
+                <div class="app-toast app-toast--{{ type }}" role="alert">
+                    <span class="app-toast__icon">
+                        {% if type == 'success' %}<i class="bi bi-check-circle-fill"></i>
+                        {% elseif type == 'error' %}<i class="bi bi-x-circle-fill"></i>
+                        {% elseif type == 'warning' %}<i class="bi bi-exclamation-triangle-fill"></i>
+                        {% else %}<i class="bi bi-info-circle-fill"></i>{% endif %}
+                    </span>
+                    <span class="app-toast__msg">{{ message }}</span>
+                    <button class="app-toast__close" onclick="this.parentElement.remove()">×</button>
+                </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
 
         <main>{% block main %}{% endblock %}</main>
 
@@ -118,7 +409,7 @@
 
                     <div class="col-lg-2 col-md-4 footer-links">
                         <ul>
-                            <li><a href="#">Connexion</a></li>
+                            <li><a href="{{ path('app_login') }}">Connexion</a></li>
                             <li><a href="{{ path('app_panier') }}">Panier</a></li>
                         </ul>
                     </div>
@@ -143,5 +434,47 @@
         <script src="{{ asset(path='vendor/purecounter/purecounter_vanilla.js')}}"></script>
         <script src="{{ asset(path='vendor/swiper/swiper-bundle.min.js')}}"></script>
         <script src="{{ asset(path='js/main.js')}}"></script>
+        <script>
+        // Auto-fermeture des toasts après 4s
+        document.querySelectorAll('.app-toast').forEach(function(t) {
+            setTimeout(function() {
+                t.style.transition = 'opacity .4s';
+                t.style.opacity = '0';
+                setTimeout(function() { t.remove(); }, 400);
+            }, 4000);
+        });
+        </script>
+        <script>
+        (function () {
+            // Dropdown "Mon compte"
+            const btn   = document.querySelector('.nav-user-btn');
+            const panel = document.querySelector('.nav-user-panel');
+            if (btn && panel) {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    panel.classList.toggle('open');
+                });
+                panel.addEventListener('click', function (e) { e.stopPropagation(); });
+            }
+
+            // Dropdowns navmenu (Services, etc.)
+            document.querySelectorAll('.navmenu li.dropdown > a').forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const sub = link.nextElementSibling;
+                    if (sub) sub.classList.toggle('open');
+                });
+            });
+
+            // Fermer tout au clic extérieur
+            document.addEventListener('click', function () {
+                if (panel) panel.classList.remove('open');
+                document.querySelectorAll('.navmenu li.dropdown > ul.open').forEach(function (ul) {
+                    ul.classList.remove('open');
+                });
+            });
+        })();
+        </script>
     </body>
 </html>

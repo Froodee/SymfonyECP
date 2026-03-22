@@ -68,14 +68,14 @@
             <div class="col-lg-8" data-aos="fade-left">
 
                 <!-- Informations personnelles -->
-                <div class="content-box mb-4">
+                <div class="content-box mb-4" id="infos">
                     <h3>
                         <i class="bi bi-person-badge me-2 text-success"></i>
                         Informations personnelles
                     </h3>
 
-                    {% if utilisateur %}
-                        <div class="info-grid">
+                    <div class="info-grid">
+                        {% if utilisateur %}
                             <div class="info-item">
                                 <label><i class="bi bi-person me-2"></i>Nom complet</label>
                                 <p>{{ utilisateur.nomUser }}</p>
@@ -90,31 +90,29 @@
                             </div>
                             <div class="info-item">
                                 <label><i class="bi bi-geo-alt me-2"></i>Adresse</label>
-                                <p>
-                                    {{ utilisateur.adrUser }}<br>
-                                    {{ utilisateur.cpUser }} {{ utilisateur.villeUser }}
-                                </p>
+                                <p>{{ utilisateur.adrUser }}<br>{{ utilisateur.cpUser }} {{ utilisateur.villeUser }}</p>
                             </div>
                             {% if client and client.siret %}
                                 <div class="info-item">
-                                    <label><i class="bi bi-building me-2"></i>SIRET (Client professionnel)</label>
+                                    <label><i class="bi bi-building me-2"></i>SIRET</label>
                                     <p>{{ client.siret }}</p>
                                 </div>
                             {% endif %}
-                        </div>
-                    {% else %}
-                        <div class="alert alert-info">
-                            <i class="bi bi-info-circle me-2"></i>
-                            Veuillez compléter vos informations personnelles pour profiter pleinement de votre compte.
-                        </div>
-                        <a href="#" class="btn btn-success">
-                            <i class="bi bi-plus-circle me-2"></i>Compléter mon profil
-                        </a>
-                    {% endif %}
+                        {% else %}
+                            <div class="info-item">
+                                <label><i class="bi bi-envelope me-2"></i>Email</label>
+                                <p>{{ user.email }}</p>
+                            </div>
+                            <div class="info-item">
+                                <label><i class="bi bi-patch-check me-2"></i>Compte</label>
+                                <p>{{ user.isVerified ? 'Vérifié' : 'En attente de vérification' }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
 
                 <!-- Historique des commandes -->
-                <div class="content-box mb-4">
+                <div class="content-box mb-4" id="commandes">
                     <h3>
                         <i class="bi bi-box-seam me-2 text-success"></i>
                         Mes commandes
@@ -127,6 +125,7 @@
                                     <tr>
                                         <th>N° Commande</th>
                                         <th>Date</th>
+                                        <th>Montant</th>
                                         <th>Statut</th>
                                         <th>Actions</th>
                                     </tr>
@@ -136,15 +135,25 @@
                                         <tr>
                                             <td><strong>#{{ commande.numCde }}</strong></td>
                                             <td>{{ commande.dateCde|date('d/m/Y') }}</td>
+                                            <td class="text-danger fw-bold">
+                                                {% if commande.facture %}
+                                                    {{ commande.facture.montant|number_format(2, ',', ' ') }} €
+                                                {% else %}—{% endif %}
+                                            </td>
                                             <td>
                                                 <span class="badge bg-success">
-                                                    <i class="bi bi-check-circle me-1"></i>Livrée
+                                                    <i class="bi bi-check-circle me-1"></i>Confirmée
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-outline-success">
-                                                    <i class="bi bi-eye"></i> Détails
+                                                {% if commande.facture %}
+                                                <a href="{{ path('app_checkout_confirmation', {id: commande.facture.id}) }}" class="btn btn-sm btn-outline-success me-1">
+                                                    <i class="bi bi-eye"></i>
                                                 </a>
+                                                <a href="{{ path('app_facture_pdf', {id: commande.facture.id}) }}" class="btn btn-sm btn-outline-danger" title="Télécharger la facture">
+                                                    <i class="bi bi-file-earmark-pdf"></i>
+                                                </a>
+                                                {% endif %}
                                             </td>
                                         </tr>
                                     {% endfor %}

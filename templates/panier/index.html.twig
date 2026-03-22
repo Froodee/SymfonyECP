@@ -12,12 +12,6 @@
     </div>
 
     <div class="container">
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle me-2"></i>{{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        {% endfor %}
 
         <div class="row gy-5">
             <div class="col-lg-8" data-aos="fade-right">
@@ -112,9 +106,9 @@
                     </div>
 
                     {% if panier|length > 0 %}
-                        <button class="btn btn-danger w-100 rounded-pill py-3 mb-3" onclick="alert('Commande validée ! Votre colis partira sans laisser de traces. 😏')">
-                            Valider la commande
-                        </button>
+                        <a href="{{ path('app_checkout') }}" class="btn btn-danger w-100 rounded-pill py-3 mb-3 text-decoration-none">
+                            <i class="bi bi-credit-card me-2"></i>Valider la commande
+                        </a>
 
                         <a href="{{ path('app_panier_vider') }}" class="btn btn-outline-danger w-100 rounded-pill mb-3" onclick="return confirm('Êtes-vous sûr de vouloir vider votre panier ?')">
                             <i class="bi bi-trash3 me-2"></i>Vider le panier

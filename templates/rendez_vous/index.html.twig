@@ -1,0 +1,200 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prendre rendez-vous - ECP : Emballé c'est pesé{% endblock %}
+
+{% block main %}
+<section class="rdv-section">
+
+    <!-- En-tête -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Prendre rendez-vous</h2>
+        <p>Choisissez un créneau, on s'occupe du reste.<br>
+        <span class="text-muted">Notre équipe interviendra avec discrétion et efficacité.</span></p>
+    </div>
+
+    <div class="container pb-5">
+        <div class="row gy-5 align-items-start">
+
+            <!-- Colonne gauche : info -->
+            <div class="col-lg-4" data-aos="fade-right" data-aos-delay="100">
+
+                <div class="rdv-info-card mb-4">
+                    <div class="rdv-info-icon"><i class="bi bi-calendar2-check"></i></div>
+                    <div>
+                        <h5>Disponibilités</h5>
+                        <p class="text-muted mb-0">Du lundi au samedi, de 8h à 18h</p>
+                    </div>
+                </div>
+
+                <div class="rdv-info-card mb-4">
+                    <div class="rdv-info-icon"><i class="bi bi-shield-check"></i></div>
+                    <div>
+                        <h5>Intervention garantie</h5>
+                        <p class="text-muted mb-0">Confirmation par email sous 24h</p>
+                    </div>
+                </div>
+
+                <div class="rdv-info-card mb-4">
+                    <div class="rdv-info-icon"><i class="bi bi-geo-alt"></i></div>
+                    <div>
+                        <h5>Déplacement inclus</h5>
+                        <p class="text-muted mb-0">Toute l'Île-de-France sans frais</p>
+                    </div>
+                </div>
+
+                <div class="rdv-steps mt-5">
+                    <h6 class="fw-bold mb-3 text-danger">Comment ça marche ?</h6>
+                    <div class="step-item">
+                        <span class="step-badge">1</span>
+                        <span>Remplissez le formulaire</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-badge">2</span>
+                        <span>Recevez votre confirmation</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-badge">3</span>
+                        <span>On intervient à l'heure dite</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Colonne droite : formulaire -->
+            <div class="col-lg-8" data-aos="fade-left" data-aos-delay="200">
+
+                {{ form_start(form, {
+                    'attr': {'class': 'rdv-form p-4 p-md-5 border rounded-4 shadow-sm'}
+                }) }}
+
+                    <div class="row gy-4">
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-person me-1 text-danger"></i>{{ form_label(form.nom) }}
+                            </label>
+                            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.nom) }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-envelope me-1 text-danger"></i>{{ form_label(form.email) }}
+                            </label>
+                            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.email) }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-telephone me-1 text-danger"></i>{{ form_label(form.telephone) }}
+                            </label>
+                            {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.telephone) }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-tools me-1 text-danger"></i>{{ form_label(form.service) }}
+                            </label>
+                            {{ form_widget(form.service, {'attr': {'class': 'form-select'}}) }}
+                            {{ form_errors(form.service) }}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-calendar-event me-1 text-danger"></i>{{ form_label(form.dateRdv) }}
+                            </label>
+                            {{ form_widget(form.dateRdv, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.dateRdv) }}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">
+                                <i class="bi bi-chat-text me-1 text-danger"></i>{{ form_label(form.message) }}
+                            </label>
+                            {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.message) }}
+                        </div>
+
+                        <div class="col-12 text-center mt-2">
+                            <button type="submit" class="btn btn-danger btn-lg rounded-pill px-5 rdv-submit-btn">
+                                <i class="bi bi-calendar2-plus me-2"></i>Confirmer ma demande
+                            </button>
+                        </div>
+
+                    </div>
+
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.rdv-section {
+    padding-top: 60px;
+}
+.rdv-info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    transition: transform .2s, box-shadow .2s;
+}
+.rdv-info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,.10);
+}
+.rdv-info-icon {
+    font-size: 1.6rem;
+    color: #dc3545;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff0f1;
+    border-radius: 50%;
+}
+.rdv-steps .step-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: .95rem;
+}
+.step-badge {
+    background: #dc3545;
+    color: #fff;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.rdv-form label {
+    display: none; /* on utilise nos propres labels au-dessus */
+}
+.rdv-form .form-label {
+    display: block;
+    margin-bottom: 6px;
+}
+.rdv-submit-btn {
+    transition: transform .15s, box-shadow .15s;
+}
+.rdv-submit-btn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 20px rgba(220,53,69,.35);
+}
+</style>
+{% endblock %}

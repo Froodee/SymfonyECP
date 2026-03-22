@@ -38,6 +38,8 @@ class TypeProduit
         return $this->id;
     }
 
+    public function __toString(): string { return $this->LibTyp ?? ''; }
+
     public function getCodeTyp(): ?int
     {
         return $this->CodeTyp;

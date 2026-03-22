@@ -1,0 +1,189 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rendez-vous confirmé - ECP{% endblock %}
+
+{% block main %}
+<section class="confirm-section">
+
+    <!-- Confettis -->
+    <div class="confetti-container" id="confetti-container"></div>
+
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="confirm-card text-center" data-aos="zoom-in">
+
+            <div class="confirm-icon-wrapper mb-4">
+                <div class="confirm-ring"></div>
+                <i class="bi bi-calendar2-check confirm-icon"></i>
+            </div>
+
+            <h1 class="confirm-title">Demande envoyée !</h1>
+            <p class="confirm-subtitle">Merci <strong>{{ nom }}</strong>, votre demande de rendez-vous a bien été prise en compte.</p>
+
+            <div class="confirm-details">
+                <div class="confirm-detail-row">
+                    <span class="detail-label"><i class="bi bi-tools me-2"></i>Service</span>
+                    <span class="detail-value">{{ service }}</span>
+                </div>
+                <div class="confirm-detail-row">
+                    <span class="detail-label"><i class="bi bi-clock me-2"></i>Date souhaitée</span>
+                    <span class="detail-value">{{ date }}</span>
+                </div>
+            </div>
+
+            <p class="text-muted mt-4" style="font-size:.9rem;">
+                Notre équipe vous confirmera le rendez-vous par email sous 24h.
+            </p>
+
+            <div class="d-flex gap-3 justify-content-center mt-4 flex-wrap">
+                <a href="{{ path('app_home') }}" class="btn btn-outline-danger rounded-pill px-4">
+                    <i class="bi bi-house me-2"></i>Retour à l'accueil
+                </a>
+                <a href="{{ path('app_rendez_vous') }}" class="btn btn-danger rounded-pill px-4">
+                    <i class="bi bi-calendar-plus me-2"></i>Nouveau rendez-vous
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.confirm-section {
+    position: relative;
+    overflow: hidden;
+    padding: 40px 0;
+}
+
+/* Carte centrale */
+.confirm-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 48px 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.10);
+    max-width: 560px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    animation: cardPop .6s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes cardPop {
+    from { opacity: 0; transform: scale(.85) translateY(30px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Icône animée */
+.confirm-icon-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+}
+.confirm-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid #dc3545;
+    animation: ringPulse 2s ease-in-out infinite;
+}
+@keyframes ringPulse {
+    0%, 100% { transform: scale(1);   opacity: .8; }
+    50%       { transform: scale(1.15); opacity: .3; }
+}
+.confirm-icon {
+    font-size: 3rem;
+    color: #dc3545;
+    animation: iconBounce .7s .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes iconBounce {
+    from { opacity: 0; transform: scale(0) rotate(-20deg); }
+    to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.confirm-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+.confirm-subtitle {
+    font-size: 1.05rem;
+    color: #444;
+}
+
+/* Bloc détails */
+.confirm-details {
+    background: #fff8f8;
+    border: 1px solid #fde0e0;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-top: 24px;
+    text-align: left;
+}
+.confirm-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5e0e0;
+}
+.confirm-detail-row:last-child {
+    border-bottom: none;
+}
+.detail-label {
+    color: #888;
+    font-size: .9rem;
+}
+.detail-value {
+    font-weight: 600;
+    color: #dc3545;
+}
+
+/* Confettis */
+.confetti-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+.confetti-piece {
+    position: absolute;
+    top: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+    0%   { transform: translateY(0) rotate(0deg);   opacity: 1; }
+    85%  { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+</style>
+
+<script>
+(function() {
+    const colors = ['#dc3545','#28a745','#ffc107','#0d6efd','#6f42c1','#fd7e14','#20c997'];
+    const container = document.getElementById('confetti-container');
+    const N = 90;
+    for (let i = 0; i < N; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        const size = 6 + Math.random() * 10;
+        el.style.cssText = [
+            'left:' + (Math.random() * 100) + '%',
+            'width:' + size + 'px',
+            'height:' + size + 'px',
+            'background:' + colors[Math.floor(Math.random() * colors.length)],
+            'border-radius:' + (Math.random() > .5 ? '50%' : '2px'),
+            'animation-duration:' + (2.5 + Math.random() * 3) + 's',
+            'animation-delay:' + (Math.random() * 1.5) + 's',
+        ].join(';');
+        container.appendChild(el);
+    }
+    // Nettoyer après l'animation
+    setTimeout(() => container.remove(), 6000);
+})();
+</script>
+{% endblock %}

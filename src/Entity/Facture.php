@@ -20,6 +20,9 @@ class Facture
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $DateFact = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private string $montant = '0.00';
+
     #[ORM\OneToOne(inversedBy: 'facture', cascade: ['persist', 'remove'])]
     private ?Commande $NumCde = null;
 
@@ -51,6 +54,9 @@ class Facture
 
         return $this;
     }
+
+    public function getMontant(): string { return $this->montant; }
+    public function setMontant(string $montant): static { $this->montant = $montant; return $this; }
 
     public function getNumCde(): ?Commande
     {

@@ -1,0 +1,32 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Tableau de bord{% endblock %}
+
+{% block main %}
+<div class="row g-4 mt-2">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-4">
+            <i class="fa fa-calendar fa-2x text-danger mb-2"></i>
+            <h5>Rendez-vous</h5>
+            <p class="text-muted mb-0">Gérez les demandes de RDV</p>
+            <a href="{{ ea_url().setController('App\\Controller\\Admin\\RendezVousCrudController') }}" class="btn btn-sm btn-danger mt-3 rounded-pill">Voir tout</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-4">
+            <i class="fa fa-box fa-2x text-success mb-2"></i>
+            <h5>Produits</h5>
+            <p class="text-muted mb-0">Gérez le catalogue</p>
+            <a href="{{ ea_url().setController('App\\Controller\\Admin\\ProduitsCrudController') }}" class="btn btn-sm btn-success mt-3 rounded-pill">Voir tout</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm text-center p-4">
+            <i class="fa fa-shopping-cart fa-2x text-primary mb-2"></i>
+            <h5>Commandes</h5>
+            <p class="text-muted mb-0">Suivez les commandes</p>
+            <a href="{{ ea_url().setController('App\\Controller\\Admin\\CommandeCrudController') }}" class="btn btn-sm btn-primary mt-3 rounded-pill">Voir tout</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

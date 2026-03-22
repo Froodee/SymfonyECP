@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de rendez-vous – ECP</title>
+</head>
+<body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:30px 0;">
+    <tr>
+        <td align="center">
+            <table width="580" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);">
+
+                <!-- En-tête rouge -->
+                <tr>
+                    <td style="background:#dc3545;padding:32px 40px;text-align:center;">
+                        <h1 style="color:#ffffff;margin:0;font-size:26px;font-weight:700;">ECP – Emballé c'est pesé</h1>
+                        <p style="color:rgba(255,255,255,.85);margin:6px 0 0;font-size:14px;">Confirmation de votre demande de rendez-vous</p>
+                    </td>
+                </tr>
+
+                <!-- Corps -->
+                <tr>
+                    <td style="padding:36px 40px;">
+                        <p style="font-size:16px;color:#333;margin:0 0 8px;">Bonjour <strong>{{ rdv.nom }}</strong>,</p>
+                        <p style="font-size:15px;color:#555;line-height:1.6;margin:0 0 28px;">
+                            Nous avons bien reçu votre demande de rendez-vous. Notre équipe vous contactera sous <strong>24h</strong> pour confirmer le créneau.
+                        </p>
+
+                        <!-- Bloc récapitulatif -->
+                        <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff8f8;border:1px solid #fde0e0;border-radius:10px;margin-bottom:28px;">
+                            <tr>
+                                <td style="padding:20px 24px;">
+                                    <p style="margin:0 0 14px;font-size:13px;font-weight:700;color:#dc3545;text-transform:uppercase;letter-spacing:.5px;">Récapitulatif</p>
+
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td style="padding:8px 0;color:#888;font-size:14px;border-bottom:1px solid #f5e0e0;width:40%;">Service</td>
+                                            <td style="padding:8px 0;color:#333;font-size:14px;font-weight:600;border-bottom:1px solid #f5e0e0;">{{ rdv.service }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:8px 0;color:#888;font-size:14px;border-bottom:1px solid #f5e0e0;">Date souhaitée</td>
+                                            <td style="padding:8px 0;color:#333;font-size:14px;font-weight:600;border-bottom:1px solid #f5e0e0;">{{ rdv.dateRdv|date('d/m/Y à H\\hi') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:8px 0;color:#888;font-size:14px;">Téléphone</td>
+                                            <td style="padding:8px 0;color:#333;font-size:14px;font-weight:600;">{{ rdv.telephone }}</td>
+                                        </tr>
+                                        {% if rdv.message %}
+                                        <tr>
+                                            <td colspan="2" style="padding:8px 0;color:#888;font-size:14px;border-top:1px solid #f5e0e0;">
+                                                <em>{{ rdv.message }}</em>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p style="font-size:14px;color:#777;line-height:1.6;margin:0;">
+                            En cas de question, répondez simplement à cet email ou appelez-nous au <strong>01 23 45 67 89</strong>.
+                        </p>
+                    </td>
+                </tr>
+
+                <!-- Pied de page -->
+                <tr>
+                    <td style="background:#f9f9f9;padding:20px 40px;text-align:center;border-top:1px solid #eee;">
+                        <p style="margin:0;font-size:12px;color:#aaa;">
+                            © ECP – Emballé c'est pesé &bull; 123 Rue de l'Écologie, 75001 Paris
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

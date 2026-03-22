@@ -11,22 +11,21 @@
     </div>
 
     <div class="container">
-        {% set flashes = app.flashes %}
-        {% if flashes['success'] is defined %}
-            {% for message in flashes['success'] %}
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle me-2"></i>{{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
+
+        <!-- Filtres par catégorie -->
+        {% if categories|length > 0 %}
+        <div class="d-flex flex-wrap gap-2 mb-4 justify-content-center" data-aos="fade-up">
+            <a href="{{ path('app_boutique') }}"
+               class="btn rounded-pill {{ typeActif is null ? 'btn-danger' : 'btn-outline-danger' }}">
+                Tous les produits
+            </a>
+            {% for cat in categories %}
+            <a href="{{ path('app_boutique', {type: cat.id}) }}"
+               class="btn rounded-pill {{ typeActif == cat.id ~ '' ? 'btn-danger' : 'btn-outline-danger' }}">
+                {{ cat.libTyp }}
+            </a>
             {% endfor %}
-        {% endif %}
-        {% if flashes['error'] is defined %}
-            {% for message in flashes['error'] %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-circle me-2"></i>{{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
+        </div>
         {% endif %}
 
         {% if produits|length > 0 %}
@@ -94,7 +93,12 @@
                                         <div style="max-height: 200px; overflow-y: auto;">
                                             {% for avi in produit.avis %}
                                                 <div class="border-bottom py-2 small">
-                                                    <strong>{{ avi.idUser ? avi.idUser.nomUser : 'Anonyme' }}</strong>
+                                                    <strong>{{ avi.nomAuteur }}</strong>
+                                                    <div class="mb-1">
+                                                        {% for i in 1..5 %}
+                                                            <i class="bi bi-star-fill {{ i <= avi.note ? 'text-warning' : 'text-muted' }}" style="font-size:.75rem;"></i>
+                                                        {% endfor %}
+                                                    </div>
                                                     <p class="mb-0 text-muted">{{ avi.commentaire }}</p>
                                                 </div>
                                             {% endfor %}
@@ -106,6 +110,12 @@
                                     {% if app.user %}
                                         <form method="post" action="{{ path('app_boutique_avis', {id: produit.id}) }}" class="mt-2">
                                             <input type="hidden" name="_token" value="{{ csrf_token('avis_' ~ produit.id) }}">
+                                            <div class="star-picker mb-1" data-produit="{{ produit.id }}">
+                                                {% for s in 1..5 %}
+                                                <i class="bi bi-star star-btn text-warning" style="cursor:pointer;font-size:1.2rem;" data-val="{{ s }}"></i>
+                                                {% endfor %}
+                                                <input type="hidden" name="note" class="star-value" value="5">
+                                            </div>
                                             <textarea name="commentaire" class="form-control form-control-sm" rows="2"
                                                       placeholder="Votre avis..." required maxlength="500"></textarea>
                                             <button type="submit" class="btn btn-sm btn-success mt-1 w-100">
@@ -144,4 +154,22 @@
         </div>
     </div>
 </section>
+<script>
+document.querySelectorAll('.star-picker').forEach(picker => {
+    const stars = picker.querySelectorAll('.star-btn');
+    const input = picker.querySelector('.star-value');
+    function paint(n) {
+        stars.forEach((s, i) => {
+            s.classList.toggle('bi-star-fill', i < n);
+            s.classList.toggle('bi-star', i >= n);
+        });
+    }
+    paint(5);
+    stars.forEach((s, i) => {
+        s.addEventListener('click', () => { input.value = i + 1; paint(i + 1); });
+        s.addEventListener('mouseenter', () => paint(i + 1));
+        s.addEventListener('mouseleave', () => paint(parseInt(input.value)));
+    });
+});
+</script>
 {% endblock %}

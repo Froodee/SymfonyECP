@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Nouveau RDV</title></head>
+<body style="font-family:Arial,sans-serif;background:#f5f5f5;padding:30px;">
+<table width="580" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:10px;overflow:hidden;margin:auto;">
+    <tr>
+        <td style="background:#1a1a2e;padding:24px 32px;">
+            <h2 style="color:#fff;margin:0;font-size:20px;">🔔 Nouveau rendez-vous reçu</h2>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding:28px 32px;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+                <tr><td style="padding:8px 0;color:#888;font-size:14px;border-bottom:1px solid #eee;width:35%;">Nom</td><td style="padding:8px 0;font-weight:600;border-bottom:1px solid #eee;">{{ rdv.nom }}</td></tr>
+                <tr><td style="padding:8px 0;color:#888;font-size:14px;border-bottom:1px solid #eee;">Email</td><td style="padding:8px 0;font-weight:600;border-bottom:1px solid #eee;">{{ rdv.email }}</td></tr>
+                <tr><td style="padding:8px 0;color:#888;font-size:14px;border-bottom:1px solid #eee;">Téléphone</td><td style="padding:8px 0;font-weight:600;border-bottom:1px solid #eee;">{{ rdv.telephone }}</td></tr>
+                <tr><td style="padding:8px 0;color:#888;font-size:14px;border-bottom:1px solid #eee;">Service</td><td style="padding:8px 0;font-weight:600;color:#dc3545;border-bottom:1px solid #eee;">{{ rdv.service }}</td></tr>
+                <tr><td style="padding:8px 0;color:#888;font-size:14px;border-bottom:1px solid #eee;">Date souhaitée</td><td style="padding:8px 0;font-weight:600;border-bottom:1px solid #eee;">{{ rdv.dateRdv|date('d/m/Y à H\\hi') }}</td></tr>
+                {% if rdv.message %}<tr><td colspan="2" style="padding:10px 0;color:#555;font-size:14px;font-style:italic;">« {{ rdv.message }} »</td></tr>{% endif %}
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="background:#f9f9f9;padding:16px 32px;text-align:center;">
+            <p style="margin:0;font-size:12px;color:#aaa;">Reçu le {{ rdv.createdAt|date('d/m/Y à H:i') }} • ECP Admin</p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

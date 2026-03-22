@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Avis;
 use App\Entity\Produits;
 use App\Repository\ProduitsRepository;
+use App\Repository\TypeProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,13 +16,21 @@ use Symfony\Component\Routing\Attribute\Route;
 final class BoutiqueController extends AbstractController
 {
     #[Route('/boutique', name: 'app_boutique')]
-    public function index(ProduitsRepository $produitsRepository): Response
+    public function index(Request $request, ProduitsRepository $produitsRepository, TypeProduitRepository $typeProduitRepository): Response
     {
-        // Récupérer tous les produits (sans filtrer par stock pour l'instant)
-        $produits = $produitsRepository->findAll();
+        $typeId = $request->query->get('type');
+        $categories = $typeProduitRepository->findAll();
+
+        if ($typeId) {
+            $produits = $produitsRepository->findBy(['CodeTyp' => $typeId]);
+        } else {
+            $produits = $produitsRepository->findAll();
+        }
 
         return $this->render('boutique/index.html.twig', [
-            'produits' => $produits,
+            'produits'    => $produits,
+            'categories'  => $categories,
+            'typeActif'   => $typeId,
         ]);
     }
 
@@ -73,22 +82,23 @@ final class BoutiqueController extends AbstractController
             return $this->redirectToRoute('app_boutique');
         }
 
-        $utilisateur = $this->getUser()->getUtilisateur();
-        if (!$utilisateur) {
-            $this->addFlash('error', 'Profil incomplet, impossible de poster un avis.');
-            return $this->redirectToRoute('app_boutique');
-        }
-
         $commentaire = trim($request->request->get('commentaire', ''));
         if (!$commentaire) {
             $this->addFlash('error', 'Le commentaire ne peut pas être vide.');
             return $this->redirectToRoute('app_boutique');
         }
 
+        $note = (int) $request->request->get('note', 5);
+        $utilisateur = $this->getUser()->getUtilisateur();
+
         $avis = new Avis();
         $avis->setCommentaire($commentaire);
+        $avis->setNote($note);
         $avis->setRefPds($produit);
-        $avis->setIdUser($utilisateur);
+        $avis->setUser($this->getUser());
+        if ($utilisateur) {
+            $avis->setIdUser($utilisateur);
+        }
 
         $em->persist($avis);
         $em->flush();

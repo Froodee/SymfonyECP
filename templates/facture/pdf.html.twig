@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+    body { font-family: DejaVu Sans, sans-serif; color: #333; font-size: 13px; margin: 0; padding: 0; }
+    .header { background: #dc3545; color: white; padding: 28px 36px; }
+    .header h1 { margin: 0; font-size: 22px; }
+    .header p  { margin: 4px 0 0; opacity: .85; font-size: 12px; }
+    .body { padding: 28px 36px; }
+    .info-row { display: flex; justify-content: space-between; margin-bottom: 24px; }
+    .info-box { width: 48%; }
+    .info-box h4 { font-size: 11px; text-transform: uppercase; color: #999; margin: 0 0 6px; }
+    .info-box p  { margin: 2px 0; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    thead tr { background: #f5f5f5; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 12px; }
+    th { font-size: 11px; text-transform: uppercase; color: #888; }
+    .total-row td { font-weight: bold; border-top: 2px solid #eee; color: #dc3545; }
+    .footer { margin-top: 36px; text-align: center; font-size: 11px; color: #aaa; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>ECP – Emballé c'est pesé</h1>
+    <p>123 Rue de l'Écologie • 75001 Paris • emballep@gmail.com</p>
+</div>
+
+<div class="body">
+    <div class="info-row">
+        <div class="info-box">
+            <h4>Facture</h4>
+            <p><strong>N° {{ facture.numFact }}</strong></p>
+            <p>Date : {{ facture.dateFact|date('d/m/Y') }}</p>
+        </div>
+        <div class="info-box" style="text-align:right;">
+            <h4>Commande</h4>
+            <p><strong>#{{ commande.numCde }}</strong></p>
+            <p>{{ commande.dateCde|date('d/m/Y') }}</p>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th style="text-align:right;">Montant TTC</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Commande #{{ commande.numCde }} – ECP</td>
+                <td style="text-align:right;">{{ facture.montant|number_format(2, ',', ' ') }} €</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td>Total TTC</td>
+                <td style="text-align:right;">{{ facture.montant|number_format(2, ',', ' ') }} €</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="footer">
+        <p>Merci pour votre confiance • ECP – Emballé c'est pesé</p>
+        <p>TVA non applicable – Article 293B du CGI</p>
+    </div>
+</div>
+
+</body>
+</html>

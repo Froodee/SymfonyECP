@@ -36,6 +36,8 @@ class Promo
         $this->produits = new ArrayCollection();
     }
 
+    public function __toString(): string { return 'Promo -' . ($this->Reduc ?? '0') . '% (' . ($this->DateDb?->format('d/m/Y') ?? '') . ')'; }
+
     public function getId(): ?int
     {
         return $this->id;

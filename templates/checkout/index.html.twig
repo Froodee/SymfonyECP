@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Finaliser ma commande – ECP{% endblock %}
+
+{% block main %}
+<section class="section light-background">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Finaliser ma commande</h2>
+        <p>Vérifiez vos informations avant de valider.</p>
+    </div>
+
+    <div class="container pb-5">
+        <div class="row gy-4">
+
+            <!-- Récapitulatif panier -->
+            <div class="col-lg-7" data-aos="fade-right">
+                <div class="p-4 border rounded-4 shadow-sm bg-white">
+                    <h5 class="mb-3"><i class="bi bi-cart-check me-2 text-danger"></i>Votre panier</h5>
+                    <table class="table table-borderless align-middle">
+                        <tbody>
+                        {% for id, item in panier %}
+                            {% set prix = item.produit.prixPds %}
+                            {% if item.produit.idPromo %}
+                                {% set now = "now"|date('Y-m-d') %}
+                                {% if now >= item.produit.idPromo.dateDb|date('Y-m-d') and now <= item.produit.idPromo.dateFin|date('Y-m-d') %}
+                                    {% set prix = item.produit.prixPds * (1 - item.produit.idPromo.reduc / 100) %}
+                                {% endif %}
+                            {% endif %}
+                            <tr>
+                                <td><strong>{{ item.produit.libPds }}</strong>
+                                    {% if item.produit.idPromo %}<span class="badge bg-danger ms-1">Promo</span>{% endif %}
+                                </td>
+                                <td class="text-muted">× {{ item.quantite }}</td>
+                                <td class="text-end text-danger fw-bold">{{ (prix * item.quantite)|number_format(2, ',', ' ') }} €</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr class="border-top">
+                                <td colspan="2" class="text-muted">Livraison</td>
+                                <td class="text-end">{{ fraisLivraison|number_format(2, ',', ' ') }} €</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><strong>Total TTC</strong></td>
+                                <td class="text-end"><strong class="text-danger fs-5">{{ total|number_format(2, ',', ' ') }} €</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Adresse & confirmation -->
+            <div class="col-lg-5" data-aos="fade-left">
+                <div class="p-4 border rounded-4 shadow-sm bg-white">
+                    <h5 class="mb-3"><i class="bi bi-geo-alt me-2 text-danger"></i>Adresse de livraison</h5>
+                    {% if utilisateur %}
+                        <p class="mb-1"><strong>{{ utilisateur.nomUser }}</strong></p>
+                        <p class="mb-1 text-muted">{{ utilisateur.adrUser }}</p>
+                        <p class="mb-3 text-muted">{{ utilisateur.cpUser }} {{ utilisateur.villeUser }}</p>
+                    {% else %}
+                        <div class="alert alert-warning small">
+                            <i class="bi bi-exclamation-triangle me-1"></i>
+                            Complétez votre profil pour afficher votre adresse.
+                        </div>
+                    {% endif %}
+
+                    <hr>
+
+                    <form method="post" action="{{ path('app_checkout_confirmer') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('checkout') }}">
+                        <button type="submit" class="btn btn-danger w-100 rounded-pill py-3 fw-bold">
+                            <i class="bi bi-check2-circle me-2"></i>Confirmer ma commande
+                        </button>
+                    </form>
+
+                    <a href="{{ path('app_panier') }}" class="btn btn-outline-secondary w-100 rounded-pill mt-2">
+                        <i class="bi bi-arrow-left me-2"></i>Retour au panier
+                    </a>
+
+                    <p class="text-muted small text-center mt-3">
+                        <i class="bi bi-shield-lock me-1"></i>Paiement sécurisé • Colis anonyme
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -49,6 +49,9 @@ class Produits
     #[ORM\ManyToOne(inversedBy: 'produits')]
     private ?TypeProduit $CodeTyp = null;
 
+    #[ORM\Column]
+    private bool $estReglemente = false;
+
     public function __construct()
     {
         $this->avis = new ArrayCollection();
@@ -193,6 +196,18 @@ class Produits
     public function setCodeTyp(?TypeProduit $CodeTyp): static
     {
         $this->CodeTyp = $CodeTyp;
+
+        return $this;
+    }
+
+    public function isEstReglemente(): bool
+    {
+        return $this->estReglemente;
+    }
+
+    public function setEstReglemente(bool $estReglemente): static
+    {
+        $this->estReglemente = $estReglemente;
 
         return $this;
     }

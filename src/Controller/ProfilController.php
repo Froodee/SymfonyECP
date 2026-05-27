@@ -62,8 +62,9 @@ final class ProfilController extends AbstractController
         }
 
         $fichier = $request->files->get('fichier_pdf');
-        if (!$fichier) {
-            $this->addFlash('error', 'Veuillez joindre un fichier PDF.');
+        if (!$fichier || !$fichier->isValid()) {
+            $erreur = $fichier ? $fichier->getErrorMessage() : 'Aucun fichier reçu.';
+            $this->addFlash('error', 'Erreur lors de l\'upload : ' . $erreur . ' Vérifiez que le fichier ne dépasse pas la limite autorisée par le serveur.');
             return $this->redirectToRoute('app_profil');
         }
 

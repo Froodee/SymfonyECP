@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accès restreint - ECP : Emballé c'est pesé{% endblock %}
+
+{% block main %}
+<section class="section light-background">
+    <div class="container" style="min-height: 60vh; display: flex; align-items: center; justify-content: center;">
+        <div class="text-center" data-aos="fade-up" style="max-width: 620px;">
+
+            <div class="mb-4">
+                <i class="bi bi-shield-lock-fill text-danger" style="font-size: 5rem;"></i>
+            </div>
+
+            <h2 class="mb-3">Produit réglementé</h2>
+
+            {% if raison == 'non_connecte' %}
+                <p class="lead text-muted mb-4">
+                    Ce produit est soumis à une <strong>réglementation</strong> et ne peut être commandé
+                    que par des utilisateurs identifiés et validés par notre équipe.
+                </p>
+                <p class="text-muted mb-4">
+                    Connectez-vous à votre compte. Si votre compte a déjà été validé par nos équipes,
+                    vous pourrez ajouter ce produit à votre panier.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{{ path('app_login') }}" class="btn btn-success btn-lg rounded-pill px-5">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
+                    </a>
+                    <a href="{{ path('app_boutique') }}" class="btn btn-outline-secondary btn-lg rounded-pill px-5">
+                        <i class="bi bi-arrow-left me-2"></i>Retour à la boutique
+                    </a>
+                </div>
+
+            {% else %}
+                <p class="lead text-muted mb-4">
+                    Ce produit est soumis à une <strong>réglementation</strong> et ne peut être commandé
+                    que par des utilisateurs dont le compte a été <strong>validé</strong> par notre équipe.
+                </p>
+                <p class="text-muted mb-4">
+                    Votre compte est en cours de validation. Une fois validé par nos équipes,
+                    vous aurez accès à l'ensemble de nos produits réglementés.
+                    N'hésitez pas à nous contacter si vous souhaitez accélérer le processus.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{{ path('app_contact') }}" class="btn btn-success btn-lg rounded-pill px-5">
+                        <i class="bi bi-envelope me-2"></i>Contacter notre équipe
+                    </a>
+                    <a href="{{ path('app_boutique') }}" class="btn btn-outline-secondary btn-lg rounded-pill px-5">
+                        <i class="bi bi-arrow-left me-2"></i>Retour à la boutique
+                    </a>
+                </div>
+            {% endif %}
+
+            <div class="mt-5 p-4 rounded" style="background: #f8f9fa; border-left: 4px solid #dc2626;">
+                <p class="small text-muted mb-0">
+                    <i class="bi bi-info-circle me-2 text-danger"></i>
+                    Certains produits de notre catalogue sont soumis à des réglementations
+                    spécifiques. Leur vente est strictement encadrée et réservée à des
+                    acheteurs identifiés et habilités.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

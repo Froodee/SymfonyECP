@@ -34,12 +34,30 @@ final class BoutiqueController extends AbstractController
         ]);
     }
 
+    #[Route('/boutique/acces-refuse', name: 'app_boutique_acces_refuse')]
+    public function accesRefuse(): Response
+    {
+        $user = $this->getUser();
+        $raison = $user ? 'non_valide' : 'non_connecte';
+
+        return $this->render('boutique/acces_refuse.html.twig', [
+            'raison' => $raison,
+        ]);
+    }
+
     #[Route('/boutique/ajouter/{id}', name: 'app_boutique_ajouter')]
     public function ajouterAuPanier(
         Produits $produit,
         SessionInterface $session,
         Request $request
     ): Response {
+        if ($produit->isEstReglemente()) {
+            $user = $this->getUser();
+            if (!$user || !$user->isEstValide()) {
+                return $this->redirectToRoute('app_boutique_acces_refuse');
+            }
+        }
+
         // Récupérer le panier depuis la session (ou créer un tableau vide)
         $panier = $session->get('panier', []);
 

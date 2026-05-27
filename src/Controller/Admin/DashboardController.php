@@ -41,6 +41,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Commandes', 'fa fa-shopping-cart', Commande::class);
         yield MenuItem::section('Rendez-vous');
         yield MenuItem::linkToCrud('Rendez-vous', 'fa fa-calendar', RendezVous::class);
+        yield MenuItem::section('Utilisateurs');
+        yield MenuItem::linkToRoute('Demandes de validation', 'fa fa-user-check', 'app_admin_demandes');
         yield MenuItem::section('');
         yield MenuItem::linkToRoute('Retour au site', 'fa fa-arrow-left', 'app_home');
     }

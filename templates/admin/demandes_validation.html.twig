@@ -1,0 +1,105 @@
+{% extends ea.templatePath('layout') %}
+
+{% block page_title %}Demandes de validation{% endblock %}
+
+{% block main %}
+<div class="container-fluid py-4">
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label == 'success' ? 'success' : (label == 'warning' ? 'warning' : 'danger') }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fa fa-user-check me-2"></i>Demandes de validation</h2>
+        <span class="badge bg-primary fs-6">{{ demandes|length }} demande(s)</span>
+    </div>
+
+    {% if demandes|length == 0 %}
+        <div class="alert alert-info">
+            <i class="fa fa-info-circle me-2"></i>Aucune demande de validation pour le moment.
+        </div>
+    {% else %}
+        <div class="card shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Utilisateur</th>
+                            <th>Email</th>
+                            <th>Date de demande</th>
+                            <th>Justificatif PDF</th>
+                            <th>Statut</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for demande in demandes %}
+                        <tr class="{{ demande.statut == 'en_attente' ? 'table-warning' : (demande.statut == 'valide' ? 'table-success' : 'table-danger') }}">
+                            <td><strong>#{{ demande.id }}</strong></td>
+                            <td>
+                                {% set utilisateur = demande.user.utilisateur %}
+                                {{ utilisateur ? utilisateur.nomUser : '—' }}
+                            </td>
+                            <td>{{ demande.user.email }}</td>
+                            <td>{{ demande.dateCreation|date('d/m/Y H:i') }}</td>
+                            <td>
+                                <a href="{{ asset('uploads/demandes/' ~ demande.fichierPdf) }}"
+                                   target="_blank"
+                                   class="btn btn-sm btn-outline-secondary">
+                                    <i class="fa fa-file-pdf me-1"></i>Voir le PDF
+                                </a>
+                            </td>
+                            <td>
+                                {% if demande.statut == 'en_attente' %}
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="fa fa-clock me-1"></i>En attente
+                                    </span>
+                                {% elseif demande.statut == 'valide' %}
+                                    <span class="badge bg-success">
+                                        <i class="fa fa-check me-1"></i>Validé
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-danger">
+                                        <i class="fa fa-times me-1"></i>Refusé
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if demande.statut == 'en_attente' %}
+                                    <form method="post"
+                                          action="{{ path('app_admin_demandes_valider', {id: demande.id}) }}"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Valider cet utilisateur ?')">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('demande_' ~ demande.id) }}">
+                                        <button type="submit" class="btn btn-success btn-sm" title="Valider">
+                                            <i class="fa fa-check"></i>
+                                        </button>
+                                    </form>
+                                    <form method="post"
+                                          action="{{ path('app_admin_demandes_refuser', {id: demande.id}) }}"
+                                          class="d-inline ms-1"
+                                          onsubmit="return confirm('Refuser cette demande ?')">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('demande_' ~ demande.id) }}">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Refuser">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <span class="text-muted small">Traitée</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

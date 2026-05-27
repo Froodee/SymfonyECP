@@ -206,6 +206,83 @@
                     </div>
                 {% endif %}
 
+                <!-- Demande de validation -->
+                {% if not user.estValide %}
+                <div class="content-box mb-4">
+                    <h3>
+                        <i class="bi bi-person-check me-2 text-primary"></i>
+                        Demande de validation
+                    </h3>
+
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label == 'success' ? 'success' : (label == 'warning' ? 'info' : 'danger') }} alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% if demande and demande.statut == 'en_attente' %}
+                        <div class="alert alert-info d-flex align-items-center gap-3">
+                            <i class="bi bi-hourglass-split fs-4"></i>
+                            <div>
+                                <strong>Demande en cours de traitement</strong><br>
+                                <span class="small text-muted">Envoyée le {{ demande.dateCreation|date('d/m/Y à H:i') }}</span><br>
+                                Notre équipe examine votre dossier et reviendra vers vous rapidement.
+                            </div>
+                        </div>
+                    {% elseif demande and demande.statut == 'refuse' %}
+                        <div class="alert alert-danger d-flex align-items-center gap-3 mb-3">
+                            <i class="bi bi-x-circle fs-4"></i>
+                            <div>
+                                <strong>Demande refusée</strong><br>
+                                Votre précédente demande n'a pas été acceptée. Vous pouvez en soumettre une nouvelle.
+                            </div>
+                        </div>
+                        <p class="text-muted small mb-3">
+                            <i class="bi bi-info-circle me-1"></i>
+                            La validation vous permet de commander des produits réglementés.
+                            Joignez un justificatif officiel (licence, agrément, certificat professionnel…) au format PDF.
+                        </p>
+                        <form method="post" action="{{ path('app_profil_demande_validation') }}" enctype="multipart/form-data">
+                            <input type="hidden" name="_token" value="{{ csrf_token('demande_validation') }}">
+                            <div class="mb-3">
+                                <label for="fichier_pdf" class="form-label fw-semibold">
+                                    <i class="bi bi-file-earmark-pdf me-1 text-danger"></i>Justificatif PDF
+                                </label>
+                                <input type="file" id="fichier_pdf" name="fichier_pdf" accept="application/pdf"
+                                       class="form-control" required>
+                                <div class="form-text">Formats acceptés : PDF uniquement • Taille max recommandée : 5 Mo</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary rounded-pill px-4">
+                                <i class="bi bi-send me-2"></i>Envoyer ma nouvelle demande
+                            </button>
+                        </form>
+                    {% else %}
+                        <p class="text-muted small mb-3">
+                            <i class="bi bi-info-circle me-1"></i>
+                            La validation vous permet de commander des produits réglementés.
+                            Joignez un justificatif officiel (licence, agrément, certificat professionnel…) au format PDF.
+                        </p>
+                        <form method="post" action="{{ path('app_profil_demande_validation') }}" enctype="multipart/form-data">
+                            <input type="hidden" name="_token" value="{{ csrf_token('demande_validation') }}">
+                            <div class="mb-3">
+                                <label for="fichier_pdf" class="form-label fw-semibold">
+                                    <i class="bi bi-file-earmark-pdf me-1 text-danger"></i>Justificatif PDF
+                                </label>
+                                <input type="file" id="fichier_pdf" name="fichier_pdf" accept="application/pdf"
+                                       class="form-control" required>
+                                <div class="form-text">Formats acceptés : PDF uniquement • Taille max recommandée : 5 Mo</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary rounded-pill px-4">
+                                <i class="bi bi-send me-2"></i>Envoyer ma demande
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% endif %}
+
                 <!-- Sécurité et confidentialité -->
                 <div class="content-box">
                     <h3>
